@@ -1,0 +1,152 @@
+{
+  "info": {
+    "_postman_id": "6aebf3bb-a782-49d4-8e4b-7ebfd3d2b1da",
+    "name": "Comissao API",
+    "description": "Requisicoes para testar cadastro, login JWT e pedidos da Comissao API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8082"
+    },
+    {
+      "key": "jwt_token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Status da API",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            ""
+          ]
+        }
+      }
+    },
+    {
+      "name": "Cadastrar usuario",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Lucas\",\n  \"email\": \"lucas@email.com\",\n  \"senha\": \"123456\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/cadastro",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "cadastro"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "  const json = pm.response.json();",
+              "  pm.collectionVariables.set('jwt_token', json.token);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"lucas@email.com\",\n  \"senha\": \"123456\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "login"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Lancar pedido",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codigoPedido\": \"PED-001\",\n  \"valorPedido\": 1500.00,\n  \"vendedorEmail\": \"lucas@email.com\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/pedidos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "pedidos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Info GET /login",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "login"
+          ]
+        }
+      }
+    }
+  ]
+}

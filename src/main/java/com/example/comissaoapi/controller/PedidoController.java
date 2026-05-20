@@ -24,4 +24,5 @@ public class PedidoController {
     public ResponseEntity<ComissaoResponse> lancarPedido(@RequestBody @Valid PedidoRequest request) {
         return ResponseEntity.ok(pedidoService.lancarPedido(request));
     }
+
 }

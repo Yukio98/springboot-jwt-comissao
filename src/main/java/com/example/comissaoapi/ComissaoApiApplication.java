@@ -9,4 +9,5 @@ public class ComissaoApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(ComissaoApiApplication.class, args);
     }
+    
 }
